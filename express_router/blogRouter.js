@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const router = express.Router;
 const Database = require("../data/db");
@@ -56,6 +57,18 @@ router.post("/", (request, response) => {
             response.status(500).json({ error: "There was an error while saving the post to the database" })
         })
 })
+
+router.post("/:id/comments", (request, response) => {
+    Database.insertComment(request.body)
+        .then(db => {
+            response.status(201).json({ message: `A comment with id ${db.id} is added to a post with id ${request.params.id}`})
+        })
+        .catch(error => {
+            console.log(error);
+            response.status(500).json({error: "There was an error while saving the comment to the database"})
+        })
+})
+
 
 
 
