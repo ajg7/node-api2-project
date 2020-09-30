@@ -70,6 +70,28 @@ router.post("/:id/comments", (request, response) => {
 })
 
 
+router.put("/:id", (request, response) => {
+    Database.update(request.params.id, request.body)
+        .then(db => {
+            response.status(200).json({message: `${db} post is updated.`})
+        })
+        .catch(error => {
+            console.log(error)
+            response.status(500).json({error: "The post information could not be modified"})
+        })
+})
+
+router.delete("/:id", (request, response) => {
+    Database.remove(request.params.id)
+        .then(db => {
+            response.status(204).end();
+        })
+        .catch(error => {
+            console.log(error)
+            response.status(500).json({error: "The post could not be removed"})
+        })
+})
+
 
 
 module.exports = router;
